@@ -134,16 +134,15 @@ $ curl https://www.allplayers.com/api/v1/rest/webforms/006ca0d1-759c-11e2-a02b-2
 
 You can search the webform submissions information by going to the following endpoint:
 
-  /forms/{uuid}/submissions [GET]
+  /forms/{uuid}/submission [GET]
 
-Params:
-- Array key_values: An array of field names to match on, so for instance looking at the webform return from the previous
-endpoint, if we wanted to search for first name and last name matching we would use the first_name and last_name keys,
-but we could search on any of the fields that the webform has.
-- String user_uuid: Search if a specific user has a webform submission associated with them.
+**Params**
+
+*  `form_keys` Array containing possible fields to filter on.
+*  `user_uuid` UUID of user that you want to search and find a submission in the webform.
 
 <pre class="terminal">
-$ curl https://www.allplayers.com/api/v1/rest/webforms/006ca0d1-759c-11e2-a02b-22000a929434/submissions?key_values[first_name]=Mark&key_values[last_name]=Fastre
+$ curl https://www.allplayers.com/api/v1/rest/forms/006ca0d1-759c-11e2-a02b-22000a929434/submission?form_keys[__profile__field_firstname__profile]=Mark&form_keys[__profile__field_lastname__profile]=Fastre
 {
 sid: 1188
 submitted: 1362716988
