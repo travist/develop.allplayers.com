@@ -17,7 +17,7 @@ can register for a new account.
 <script type="text/javascript">
   $(function() {
     $('#group_registration').allplayers_client({
-      group: 'api'
+      group: 'apciapi'
     });
   });
 </script>
@@ -43,7 +43,7 @@ website, you can use the simple jQuery plugin.
     <script type="text/javascript">
       $(function() {
         $('#group_registration').allplayers_client({
-          group: 'api'
+          group: 'apciapi'
         });
       });
     </script>
