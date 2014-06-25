@@ -62,7 +62,7 @@ parent page.
 
 To create your page, you will need to add the following code to your application page.
 
-## Include the Seamless.js client JS file in your page.
+### Include the Seamless.js client JS file in your page.
 First you will need to download the Seamless.js library using https://github.com/travist/seamless.js/archive/master.zip and then
 include this along with your HTML page like the following.
 
