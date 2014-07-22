@@ -9,50 +9,85 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.3.1/css/foundation.min.css">
     <script src="http://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
-    <script src="https://www.allplayers.com/sites/all/libraries/allplayers.js/bin/allplayers.app.client.min.js" type="text/javascript"></script>
+    <script src="https://ttidwell.apci.ws/sites/all/libraries/allplayers.js/bin/allplayers.app.client.js" type="text/javascript"></script>
     <script type="text/javascript">
+
+      // The Groups are passed to this page as an encoded GET parameter.
+      var groups = allplayers.base64.decode($.SeamlessBase.getParam('groups'));
+      var group_params = groups.split('&');
+      var current_group = group_params[0];
+      var parents = group_params[1].split('--');
+
+      // Log the group and parent groups parameters.
+      console.log('Current Group: ' + current_group);
+      console.log('Parent Groups:');
+      console.log(parents);
 
       // Establish a connection with the parent.
       var parent = $.seamless.connect({
         url: allplayers.base64.decode($.SeamlessBase.getParam('ehost')),
-        container: '#app',
+        container: 'div.content',
         requireCookies: true
       });
 
       // Receive the registration object.
       parent.receive('getRegistration', function(data) {
         console.log(data);
+
+        // Change the title to say the persons name!
+        $('h2.title').text('Hello ' + data.account.fullname + '!');
       });
 
-      $('.donation a').click(function(event) {
-        event.preventDefault();
-        parent.send({
-          type: 'addProduct',
-          data: {
-            'product_uuid': $(this).attr('product'),
-            'title': $(this).attr('product-title'),
-            'price': $(this).attr('price'),
-            'quantity': 1
-          }
+      // Execute when the page is done loading.
+      $(function() {
+
+        $('#change-next').click(function(event) {
+          event.preventDefault();
+          parent.send({
+            type: 'setNext',
+            data: {
+              text: 'Hello!!!!'
+            }
+          });
+        });
+
+        // Register for the click events on the buttons.
+        $('.products a').click(function(event) {
+          event.preventDefault();
+
+          // Add the product to the shopping cart.
+          parent.send({
+            type: 'addProduct',
+            data: {
+              /*'product_uuid': $(this).attr('product'),*/  // <<-- Add this if you are using AllPlayers products.
+              'title': $(this).attr('product-title'),
+              'price': $(this).attr('price'),
+              'quantity': 1
+            }
+          });
         });
       });
 
     </script>
   </head>
   <body>
-    <h2>Hello!</h2>
-    <div class="panel">
-      <h2>Here are some great products!!</h2>
-      <a href="#" price="2000" product="08230195-a612-5384-61f6-9db28e926a78" product-title="$20 Product" class="button [radius round]">$20 Product</a>
-      <a href="#" price="10000" product="08230195-a612-5384-61f6-9db28e926a78" product-title="$100 Product" class="button [radius round]">$100 Product</a>
-      <a href="#" price="100000" product="08230195-a612-5384-61f6-9db28e926a78" product-title="$1000 Product" class="button [radius round]">$1000 Product</a>
-    </div>
+    <div class="content">
+      <h2 class="title">Hello!</h2>
+      <div class="products panel">
+        <h2>Here are some great products!!</h2>
+        <a href="#" price="20" product="08230195-a612-5384-61f6-9db28e926a78" product-title="$20 Product" class="button">$20 Product</a>
+        <a href="#" price="100" product="08230195-a612-5384-61f6-9db28e926a78" product-title="$100 Product" class="button">$100 Product</a>
+        <a href="#" price="1000" product="08230195-a612-5384-61f6-9db28e926a78" product-title="$1000 Product" class="button">$1000 Product</a>
+      </div>
 
-    <div class="panel">
-      <h2>Here are some more products!!</h2>
-      <a href="#" price="2000" product="27408c93-379a-bfe4-c9ed-50dd4e71fb39" product-title="$20 Other Product" class="button [radius round]">$20 Other Product</a>
-      <a href="#" price="10000" product="27408c93-379a-bfe4-c9ed-50dd4e71fb39" product-title="$100 Other Product" class="button [radius round]">$100 Other Product</a>
-      <a href="#" price="100000" product="27408c93-379a-bfe4-c9ed-50dd4e71fb39" product-title="$1000 Other Product" class="button [radius round]">$1000 Other Product</a>
+      <div class="products panel">
+        <h2>Here are some more products!!</h2>
+        <a href="#" price="20" product="27408c93-379a-bfe4-c9ed-50dd4e71fb39" product-title="$20 Other Product" class="button">$20 Other Product</a>
+        <a href="#" price="100" product="27408c93-379a-bfe4-c9ed-50dd4e71fb39" product-title="$100 Other Product" class="button">$100 Other Product</a>
+        <a href="#" price="1000" product="27408c93-379a-bfe4-c9ed-50dd4e71fb39" product-title="$1000 Other Product" class="button">$1000 Other Product</a>
+      </div>
+
+      <a href="#" id="change-next" class="button">Change Next Button</a>
     </div>
   </body>
 </html>
